@@ -12,12 +12,12 @@ This tool does the same thing for free.
 
 ## Tested On
 
-- **Monitor:** Dell U4025QW (5120x2160 ultrawide)
+Dell U4025QW (5120x2160 ultrawide)
 - **Mac:** MacBook Pro M1 Max
 - **macOS:** Tahoe 26 (macOS 26)
 - **Result:** 110Hz at native 5120x2160 (up from 60Hz)
 
-- **Monitor:** LG UltraGear 24GN600-B (1920×1080 at 144 Hz ultrawide)
+LG UltraGear 24GN600-B (1920×1080 at 144 Hz)
 - **Mac:** MacBook Air M4
 - **macOS:** Golden Gate 27 (macOS 27)
 - **Result:** 144Hz at native 1920×1080 (up from 60Hz)
