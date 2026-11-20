@@ -17,6 +17,11 @@ This tool does the same thing for free.
 - **macOS:** Tahoe 26 (macOS 26)
 - **Result:** 110Hz at native 5120x2160 (up from 60Hz)
 
+- **Monitor:** LG UltraGear 24GN600-B (1920×1080 at 144 Hz ultrawide)
+- **Mac:** MacBook Air M4
+- **macOS:** Golden Gate 27 (macOS 27)
+- **Result:** 144Hz at native 1920×1080 (up from 60Hz)
+
 > **Note:** This has only been tested on the above configuration. It may work on other Apple Silicon Macs and external displays, but your mileage may vary. The included EDIDs are specifically tuned for the Dell U4025QW. See [Using with Other Monitors](#using-with-other-monitors) below.
 
 ## Requirements
