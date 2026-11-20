@@ -23,7 +23,7 @@ LG UltraGear 24GN600-B
 - **Mac:** MacBook Air M4
 - **macOS:** Golden Gate 27 (macOS 27)
 - **Issue:** Some USB docks like Satechi Pro Slim Hub read it as a 4K 60Hz HDR monitor
-- **Result:** 144Hz at native 1920×1080 with HDR support (up from 4K 60Hz HDR)
+- **Result:** 144Hz at native 1920×1080 with HDR support
 
 > **Note:** This has only been tested on the above configuration. It may work on other Apple Silicon Macs and external displays, but your mileage may vary. The included EDIDs are specifically tuned for the Dell U4025QW. See [Using with Other Monitors](#using-with-other-monitors) below.
 
