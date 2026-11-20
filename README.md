@@ -17,7 +17,7 @@ Dell U4025QW (5120x2160 ultrawide)
 - **macOS:** Tahoe 26 (macOS 26)
 - **Result:** 110Hz at native 5120x2160 (up from 60Hz)
 
-LG UltraGear 24GN600-B (1920×1080 at 144 Hz)
+LG UltraGear 24GN600-B (1920×1080)
 - **Mac:** MacBook Air M4
 - **macOS:** Golden Gate 27 (macOS 27)
 - **Result:** 144Hz at native 1920×1080 (up from 60Hz)
