@@ -121,11 +121,55 @@ The modified EDID adds DisplayID Type I Detailed Timing descriptors for 100Hz an
 
 ## Uninstall
 
+For the optional monitor-profile workflow, see [Monitor Profiles](#monitor-profiles-optional) below.
+
 ```bash
 ./uninstall.sh
 ```
 
 This removes the LaunchAgent, clears the EDID override, and deletes the installed files. You may need to restart or replug your display cable for the factory EDID to take effect.
+
+If monitor profiles were configured, uninstall also removes their saved configuration, logs, and upgrade backups. It does not create another backup.
+
+## Monitor Profiles (Optional)
+
+The single-EDID workflow above remains the default. To apply different EDIDs to individual monitors, build the profile-enabled binary and register the original and custom EDIDs for your own physical monitor:
+
+```bash
+bash build.sh
+build/edid_override --add my-monitor \
+  "/path/to/original.bin" "/path/to/custom.bin"
+./install.sh --profiles
+```
+
+Keep that monitor connected during installation. Both EDIDs must retain its manufacturer, product, and usable serial fields. The installer verifies physical identity before replacing the existing installation. No personal profiles are bundled; `default-profiles.json` is empty. The included Dell timing examples remain available for the original workflow, but their identity fields must be adapted to your own unit for profile matching.
+
+Once profiles are configured, the profile-enabled binary uses them for `--daemon`, `--status`, `--reset`, `--enable`, and no-argument installed invocations. A bare EDID file argument is then rejected; use `--add` or `--replace` instead. Without a profile configuration, existing single-EDID commands retain their behavior. `--profiles` explicitly selects profile mode.
+
+```bash
+# List profiles and inspect connected monitors
+~/.config/edid-override/edid_override --list
+~/.config/edid-override/edid_override --status
+
+# Add another monitor or update an existing profile
+~/.config/edid-override/edid_override --add second-monitor \
+  "/path/to/second-original.bin" "/path/to/second-custom.bin"
+~/.config/edid-override/edid_override --replace my-monitor \
+  "/path/to/original.bin" "/path/to/updated-custom.bin"
+
+# Disable, enable, or remove one profile
+~/.config/edid-override/edid_override --disable-profile my-monitor
+~/.config/edid-override/edid_override --enable-profile my-monitor
+~/.config/edid-override/edid_override --remove my-monitor
+```
+
+Profiles match physical DDC/I2C identity data, independently of an active virtual EDID. At least one usable serial is required; unknown, unreadable, or ambiguous matches are skipped. Different uniquely matched monitors can receive their overrides in the same cycle. Profile changes reload within five seconds in profile mode. The reader uses the base EDID and first CTA extension; custom EDIDs may contain 128 to 4096 bytes with valid headers, lengths, extension counts, and checksums. These checks do not certify timings or increase hardware bandwidth.
+
+Use `--status` to check profile application; `edid_check` remains the diagnostic for the original single-EDID workflow. Profile-mode logs are at `~/.config/edid-override/edid-override.log`. Upgrade with `./install.sh --profiles` to preserve profiles; plain `./install.sh` also selects this path when `profiles.json` already exists. Avoid uninstalling first if you want to keep profiles. The installer retains a rollback backup; `bash restore-previous.sh` restores the prior files and startup state.
+
+Profiles and diagnostic output contain monitor identifiers. Removed or replaced override bytes are retained for cleanup, and upgrade backups retain copies until uninstalled. Profile mode uses private file permissions and contains no upload or telemetry code; those permissions do not protect against malware running as the same user. `bash secure-permissions.sh` restricts existing managed files and backups without changing EDIDs.
+
+Run `bash tests/run.sh` for offline parser, matching, legacy-routing, installer, and permissions checks. On macOS it also builds and tests the native CLI without applying display overrides. Fixtures use fictitious identifiers. Native build and hardware behavior still need verification on the actual Mac before treating this addition as release-ready.
 
 ## Troubleshooting
 
@@ -186,6 +230,10 @@ This project was reverse-engineered from BetterDisplay's approach by:
 3. Determining that EDID injection alone triggers the DCP to rebuild the display mode table
 4. Finding that macOS remembers the refresh rate preference, so only injection is needed (no explicit mode switch)
 5. Adding a daemon mode with `CGDisplayRegisterReconfigurationCallback` to automatically re-inject after sleep/wake
+
+## Acknowledgments
+
+- ChatGPT (OpenAI): assisted with optional monitor-profile support, code review, file-permission improvements, documentation, and automated test development.
 
 ## License
 
